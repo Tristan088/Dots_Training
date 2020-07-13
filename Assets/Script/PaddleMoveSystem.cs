@@ -2,19 +2,27 @@
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
+
+
 
 [AlwaysSynchronizeSystem]
-public class PaddleMovementSystem : JobComponentSystem
+public class PaddleMoveSystem : JobComponentSystem
 {
+
+    
+
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        float deltatime = Time.DeltaTime;
-        float yBounb = GameManager.main.yBound;
+
+        float deltaTime = Time.DeltaTime;
+        float yBound = GameManager.main.yBound;
+
 
         Entities.ForEach((ref Translation trans, in PaddleMoveData data) =>
         {
-            trans.Value.y = math.clamp(trans.Value.y + (data.speed * data.direction * deltatime), -yBounb, yBounb);
+            trans.Value.y = math.clamp(trans.Value.y + (data.direction * data.speed * deltaTime), -yBound, yBound);
         }).Run();
 
         return default;
